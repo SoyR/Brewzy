@@ -134,6 +134,21 @@
             width: 90%;
             height: auto;
             z-index: 3;
+            opacity: 0; /* 처음에는 안 보이게 설정 */
+            animation: fadeInUp 1.2s ease-out forwards; /* 1.2초 동안 부드럽게 재생 */
+            animation-delay: 0.3s;
+        }
+        @keyframes fadeInUp {
+        from {
+        opacity: 0;
+        /* 원래 위치(bottom: -50px)보다 30px 아래에서 시작 */
+        transform: translate(-50%, 30px); 
+        }
+        to {
+        opacity: 1;
+        /* 원래 위치로 복귀 */
+        transform: translate(-50%, 0); 
+            }
         }
 
         .poster-typo-img {
