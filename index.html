@@ -279,6 +279,7 @@
             letter-spacing: 2px;
         }
 
+        
         .menu-category {
             background: #ffffff;
             border-radius: 20px;
@@ -288,6 +289,20 @@
             border: 1px solid #f0e6df;
         }
 
+        /* 처음 상태: 투명하고 30px 아래에 위치 */
+        .menu-category {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        /* 스크롤되어 화면에 등장했을 때 적용될 클래스 */
+        .menu-category.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        
         .category-header {
             display: flex;
             align-items: center;
@@ -515,5 +530,34 @@
         <p style="margin-top: 15px; font-size: 0.75rem; color: #aaa;">&copy; Brewzy. All Rights Reserved.</p>
     </footer>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // 모든 메뉴 카테고리 박스 선택
+        const menuCategories = document.querySelectorAll('.menu-category');
+
+        // 스크롤 감지 옵션 설정
+        const observerOptions = {
+            root: null, // 브라우저 뷰포트 기준
+            rootMargin: '0px',
+            threshold: 0.1 // 요소가 10% 정도 보이기 시작할 때 작동
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                // 요소가 화면에 들어왔다면
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active'); // active 클래스 추가
+                    observer.unobserve(entry.target); // 한 번 등장한 후에는 감지 해제 (원치 않으면 주석 처리)
+                }
+            });
+        }, observerOptions);
+
+        // 모든 메뉴 박스에 감지기 부착
+        menuCategories.forEach(category => {
+            observer.observe(category);
+        });
+    });
+</script>
+    
 </body>
 </html>
